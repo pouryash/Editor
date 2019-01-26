@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">editor</string>
+    <string name="toolbar_text">یادداشت های من</string>
+    <string name="btn_add">افزودن یادداشت جدید</string>
+    <string name="edit_note">ویرایش یادداشت</string>
+    <string name="btn_submit_add">ثبت یادداشت</string>
+    <string name="text_hint_content">محتوای یادداشت را اینجا بنویس...</string>
+    <string name="text_hint_subject">عنوان یادداشت</string>
+    <string name="btn_edit">ویرایش</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="remove_all_item">حذف همه ایتم ها</string>
+</resources>
