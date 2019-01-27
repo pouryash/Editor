@@ -11,6 +11,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 
 public class adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -74,8 +76,15 @@ public class adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             conetnt = itemView.findViewById(R.id.content_adp);
             delete = itemView.findViewById(R.id.delete);
             edit = itemView.findViewById(R.id.edit);
-        }
 
+//            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View view) {
+//                    Toasty.error(context,"dddddddddddd").show();
+//                    return true;
+//                }
+//            });
+        }
         public void bindModel(Note model) {
             subject.setText(model.getSubject());
             conetnt.setText(model.getContent());
