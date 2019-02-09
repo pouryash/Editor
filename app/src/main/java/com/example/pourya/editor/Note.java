@@ -1,24 +1,13 @@
 package com.example.pourya.editor;
 
 
-
 public class Note {
 
 
-    public static final String TABLE_NAME = "notes";
-    public static final String COLUMN_ID = "id";
-    public static final String COLUMN_SUBJECT = "subject";
-    public static final String COLUMN_CONTENT = "content";
     private String subject;
     private String content;
     private int id;
 
-    public static final String CREATE_TABLE =
-            "CREATE TABLE " + TABLE_NAME + "("
-                    + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + COLUMN_SUBJECT + " TEXT,"
-                    + COLUMN_CONTENT + " TEXT "
-                    + ")";
 
     public Note() {
     }
