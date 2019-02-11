@@ -1,10 +1,9 @@
-package com.example.pourya.editor.sql;
+package com.example.pourya.editor.Data;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.pourya.editor.Note;
 
@@ -33,7 +32,7 @@ public class DAO {
         return mHelper.getWritableDatabase();
     }
 
-    public long insertNote(Note note){
+    public Note insertNote(Note note){
 //        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues value = new ContentValues();
 
@@ -41,9 +40,10 @@ public class DAO {
         value.put(mHelper.COLUMN_CONTENT,note.getContent());
         long id = getWriteDB().insert(mHelper.TABLE_NAME,null,value);
 
+        Note notee = getNote(id);
         getWriteDB().close();
 
-        return id;
+        return notee;
     }
 
     public List<Note> SelectAllNotes(){

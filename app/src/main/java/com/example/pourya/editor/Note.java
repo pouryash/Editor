@@ -8,6 +8,10 @@ public class Note {
     private String content;
     private int id;
 
+    public Note(String subject, String content) {
+        this.subject = subject;
+        this.content = content;
+    }
 
     public Note() {
     }
