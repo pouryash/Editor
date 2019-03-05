@@ -27,8 +27,6 @@ public interface MVP_Main {
         void notifyDataSetChanged();
         void notifyItemInserted(int position);
         void notifyItemRemoved(int position);
-        void clearEditText();
-
     }
 
     interface ProvidedPresenterOps{

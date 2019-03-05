@@ -9,9 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -20,14 +22,15 @@ import com.example.pourya.editor.MVP.MVP_Main;
 import com.example.pourya.editor.MVP.MainModel;
 import com.example.pourya.editor.MVP.MainPresenter;
 import com.example.pourya.editor.MVP.NotesViewHolder;
-
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.inject.Inject;
 import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
         MVP_Main.RequiredViewOps {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     FloatingActionButton fab_add;
     Button btn_remove_all;
@@ -35,17 +38,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RecyclerView recyclerView;
     public static final int REQUESTCODE = 1001;
     private AlertDialog.Builder builderAlert;
-    MVP_Main.ProvidedPresenterOps mPresenter = new MainPresenter(this,this);
+
+    @Inject
+    MVP_Main.ProvidedPresenterOps mPresenter = new MainPresenter(this , this);
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = getIntent();
-        String subject_intent = intent.getStringExtra("et_subject");
-        String content_intent = intent.getStringExtra("et_content");
+//        Intent intent = getIntent();
+//        String subject_intent = intent.getStringExtra("et_subject");
+//        String content_intent = intent.getStringExtra("et_content");
         setupViews();
+
 ///////////////////////////////////////////////////////////////
 //        recyclerView = (RecyclerView) findViewById(R.id.recycleview_main);
 //        if (helper.SelectAllNotes().size() !=0){
@@ -115,9 +121,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab_add = (FloatingActionButton) findViewById(R.id.fab_add_main);
         fab_add.setOnClickListener(this);
 
+        
         btn_remove_all = (Button) findViewById(R.id.remove1_all);
         btn_remove_all.setOnClickListener(this);
     }
+
+
+
+public int getNum(int num){
+
+        return num +10;
+}
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -196,11 +211,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void notifyItemRemoved(int position) {
         adapter.notifyItemRemoved(position);
-    }
-
-    @Override
-    public void clearEditText() {
-
     }
 
 

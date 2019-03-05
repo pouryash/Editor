@@ -20,11 +20,13 @@ public class MainModel implements MVP_Main.ProvidedModelOps {
 
     public List<Note> mNotes = new ArrayList<>();
     Context con;
+//    Context c;
 
     public MainModel(MVP_Main.RequiredPresenterOps presenter , Context con) {
         this.mPresenter = presenter;
         mDAO = new DAO( con );
         this.con = con;
+//         c = mPresenter.getAppContext();
     }
 
     public int getNotePosition(Note note) {

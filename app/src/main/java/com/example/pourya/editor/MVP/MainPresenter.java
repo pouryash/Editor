@@ -1,5 +1,6 @@
 package com.example.pourya.editor.MVP;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,13 +33,13 @@ public class MainPresenter implements MVP_Main.ProvidedPresenterOps,
     WeakReference<MVP_Main.RequiredViewOps> mView;
     Context con;
     MVP_Main.ProvidedModelOps mModel ;
+    android.support.v7.app.AlertDialog.Builder builderAlert;
 
     public MainPresenter(MVP_Main.RequiredViewOps view, Context con) {
         mView = new WeakReference<>(view);
         this.con = con;
         mModel = new MainModel(this , con);
     }
-
     public void setModel(MVP_Main.ProvidedModelOps model) {
         mModel = model;
         // start to load data
@@ -59,27 +60,46 @@ public class MainPresenter implements MVP_Main.ProvidedPresenterOps,
 
     @Override
     public void bindViewHolder(final NotesViewHolder holder, final int position, final Activity activity) {
-        Note note =mModel.getNote(position);
+        final Note note =mModel.getNote(position);
         holder.subject.setText(note.getSubject());
         holder.conetnt.setText(note.getContent());
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                builderAlert = new AlertDialog.Builder(con);
+                    builderAlert.setTitle("Warning!!!").
+                            setMessage("Do You Want Delete This Note?").
+                            setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    mModel.deleteNote(note);
+                                    getView().notifyItemRemoved(position);
+                                    Toasty.success(con, " Note Succssesfully Deleted.", Toast.LENGTH_SHORT).show();
+                                }
+                            }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).setIcon(R.drawable.ic_warning).show();
+
+                }
+        });
+
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Note note = mModel.getNote(position);
+                Intent intent2 = new Intent(activity, add.class);
+                intent2.putExtra("tv_subject", note.getSubject());
+                intent2.putExtra("tv_content", note.getContent());
+//                intent2.putExtra("tv_content", ((adapterVH) holder).conetnt.getText().toString());
+                intent2.putExtra("position", position + "");
+                activity.startActivityForResult(intent2, 2);
             }
         });
-//        holder.edit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Note note = notes.get(position);
-//                Intent intent2 = new Intent(activity, add.class);
-//                intent2.putExtra("tv_subject", note.getSubject());
-//                intent2.putExtra("tv_content", note.getContent());
-////                intent2.putExtra("tv_content", ((adapterVH) holder).conetnt.getText().toString());
-//                intent2.putExtra("position", position + "");
-//                activity.startActivityForResult(intent2, 2);
-//            }
-//        });
     }
 
     private MVP_Main.RequiredViewOps getView() throws NullPointerException {
@@ -89,6 +109,7 @@ public class MainPresenter implements MVP_Main.ProvidedPresenterOps,
             throw new NullPointerException("View is unavailable");
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void loadData() {
         try {
             new AsyncTask<Void, Void, List<Note>>() {
@@ -168,7 +189,6 @@ public class MainPresenter implements MVP_Main.ProvidedPresenterOps,
 
     @Override
     public void clickDeleteAll(final Context context) {
-        android.support.v7.app.AlertDialog.Builder builderAlert;
          final List<Note> notes;
         notes = mModel.loadData();
         if (notes.isEmpty()) {
@@ -179,9 +199,10 @@ public class MainPresenter implements MVP_Main.ProvidedPresenterOps,
             builderAlert.setTitle("Warning!!!").
                     setMessage("Do You Want Delete All Notes?").
                     setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @SuppressLint("StaticFieldLeak")
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            new AsyncTask<Void, Void, Boolean>() {
+                        public  void onClick(DialogInterface dialogInterface, int i) {
+                            new  AsyncTask<Void, Void, Boolean>() {
                                 @Override
                                 protected Boolean doInBackground(Void... params) {
                                     mModel.deleteAll();

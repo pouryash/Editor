@@ -2,8 +2,12 @@ package com.example.pourya.editor;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,20 +17,38 @@ import es.dmoral.toasty.Toasty;
 
 public class add extends AppCompatActivity {
 
-    ImageView btn_bank;
+//    ImageView btn_bank;
     Button btn_submit;
     Button btn_edit;
     EditText et_subject;
     EditText et_content;
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        switch (id){
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+        }
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_add);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         btn_submit = (Button) findViewById(R.id.btn_submit_add);
         btn_edit = (Button) findViewById(R.id.btn_edit);
-        btn_bank = (ImageView) findViewById(R.id.ic_back);
+//        btn_bank = (ImageView) findViewById(R.id.ic_back);
         et_subject = (EditText) findViewById(R.id.et_subject_add);
         et_content = (EditText) findViewById(R.id.et_content_add);
 
@@ -40,14 +62,14 @@ public class add extends AppCompatActivity {
         et_content.setText(content_intent);
 
 //back btn
-        btn_bank.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                add.super.onBackPressed();
-
-            }
-        });
+//        btn_bank.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                add.super.onBackPressed();
+//
+//            }
+//        });
 
 //condition to show btn_edit or submit
         if (!et_subject.getText().toString().equals("")) {
