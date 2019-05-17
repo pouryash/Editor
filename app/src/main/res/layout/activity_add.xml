@@ -22,6 +22,7 @@
             android:gravity="end"
             >
             <TextView
+                fontpath="fonts/sans.ttf"
                 android:id="@+id/tv_toolbar_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -29,7 +30,8 @@
                 android:layout_marginEnd="10dp"
                 android:layout_gravity="center"
                 android:textColor="@color/color_toolbar_text"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                tools:ignore="MissingPrefix" />
             <!--<ImageView-->
                 <!--android:id="@+id/ic_back"-->
                 <!--android:layout_width="wrap_content"-->

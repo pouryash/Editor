@@ -1,5 +1,6 @@
 package com.example.pourya.editor;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,15 +23,23 @@ import com.example.pourya.editor.MVP.MVP_Main;
 import com.example.pourya.editor.MVP.MainModel;
 import com.example.pourya.editor.MVP.MainPresenter;
 import com.example.pourya.editor.MVP.NotesViewHolder;
+
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Inject;
-import es.dmoral.toasty.Toasty;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,
+import javax.inject.Inject;
+
+import es.dmoral.toasty.Toasty;
+import io.github.inflationx.calligraphy3.CalligraphyConfig;
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
+import io.github.inflationx.viewpump.ViewPump;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+
+public class MainActivity extends RuntimePermissionsActivity implements View.OnClickListener,
         MVP_Main.RequiredViewOps {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final int REQ = 10;
 
     FloatingActionButton fab_add;
     Button btn_remove_all;
@@ -40,13 +49,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AlertDialog.Builder builderAlert;
 
     @Inject
-    MVP_Main.ProvidedPresenterOps mPresenter = new MainPresenter(this , this);
+    MVP_Main.ProvidedPresenterOps mPresenter = new MainPresenter(this, this);
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MainActivity.super.requestAppPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                REQ);
 //        Intent intent = getIntent();
 //        String subject_intent = intent.getStringExtra("et_subject");
 //        String content_intent = intent.getStringExtra("et_content");
@@ -108,6 +120,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode) {
+
+    }
+
+    @Override
+    public void onPermissionsDeny(int requestCode) {
+
+    }
+
+
     private void setupViews() {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_main);
@@ -121,23 +151,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab_add = (FloatingActionButton) findViewById(R.id.fab_add_main);
         fab_add.setOnClickListener(this);
 
-        
+
         btn_remove_all = (Button) findViewById(R.id.remove1_all);
         btn_remove_all.setOnClickListener(this);
     }
 
 
+    public int getNum(int num) {
 
-public int getNum(int num){
-
-        return num +10;
-}
+        return num + 10;
+    }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        mPresenter.onActivityResult(requestCode,resultCode,data);
+        mPresenter.onActivityResult(requestCode, resultCode, data);
 
     }
 /////////////////////////////////////////////////////
